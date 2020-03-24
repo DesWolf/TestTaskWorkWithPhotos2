@@ -15,17 +15,21 @@ class ListOfPhotosCell: UITableViewCell {
     @IBOutlet var autorLabel: UILabel!
     @IBOutlet var photoSizeLabel: UILabel!
     
-    var currentImageUrl = ""
+    var currentPhotoUrl = ""
     
-    func configere( with photo: ListOfPhotos) {
+    func configere(with photo: ListOfPhotos) {
         
         photoActivityIndicator.isHidden = true
         photoActivityIndicator.hidesWhenStopped = true
         
         self.autorLabel.text = photo.author
         self.photoSizeLabel.text = "w: \(photo.width ?? 0) h: \(photo.height ?? 0)"
+        self.currentPhotoUrl = photo.download_url ?? ""
         
-        self.fetchPhoto(imageUrl: photo.download_url ?? "")
+        let queue = DispatchQueue.global(qos: .default)
+        queue.async {
+            self.fetchPhoto(imageUrl: photo.download_url ?? "")
+        }
     }
     
     override func prepareForReuse() {
@@ -43,7 +47,7 @@ extension ListOfPhotosCell {
         
         NetworkService.fetchPhoto(imageUrl: imageUrl) { (image) in
             DispatchQueue.main.async {
-                if self.currentImageUrl == imageUrl {
+                if self.currentPhotoUrl == imageUrl {
                     self.photoImageView.image = image
                     self.photoActivityIndicator.stopAnimating()
                 }

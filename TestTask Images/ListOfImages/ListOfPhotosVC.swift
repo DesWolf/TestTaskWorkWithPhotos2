@@ -9,29 +9,37 @@
 import UIKit
 
 class ListOfPhotosVC: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     private var listOfPhotos = [ListOfPhotos]()
+    let memoryCapacity = 500 * 1024 * 1024
+    let diskCapacity = 500 * 1024 * 1024
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.tableView.rowHeight = 87
+        let urlCache = URLCache(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: "diskPath")
+        URLCache.shared = urlCache
+        fetchListOfPhotos()
+
     }
     
     @IBAction func updateListOfPhotos(_ sender: Any) {
-     
+        fetchListOfPhotos()
     }
 }
 
 // MARK: Network
 extension ListOfPhotosVC {
+    
     private func fetchListOfPhotos() {
         NetworkService.fetchListOfImages { (jsonData) in
             self.listOfPhotos = jsonData
             DispatchQueue.main.async {
                 self.tableView.reloadData()
+                self.tableView.tableFooterView = UIView()
+                
             }
         }
     }
@@ -41,9 +49,7 @@ extension ListOfPhotosVC {
 extension ListOfPhotosVC {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == "detailPhoto" {
-            
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
             let photo = listOfPhotos[indexPath.row]
             let photosVC = segue.destination as! PhotoVC
@@ -53,18 +59,18 @@ extension ListOfPhotosVC {
 }
 
 // MARK: TableViewDataSource
-extension ListOfPhotosVC: UITableViewDataSource {
+extension ListOfPhotosVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 87
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return listOfPhotos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ListOfPhotosCell", for: indexPath) as! ListOfPhotosCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ListOfPhotosCell
         let photo = listOfPhotos[indexPath.row]
         cell.configere(with: photo)
         return cell

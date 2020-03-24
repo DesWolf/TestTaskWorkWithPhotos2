@@ -10,7 +10,7 @@ import Foundation
 
 struct ListOfPhotos: Decodable {
     
-    let id: Int?
+    let id: String?
     let author: String?
     let width: Int?
     let height: Int?
