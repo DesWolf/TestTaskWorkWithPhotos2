@@ -22,7 +22,7 @@ class ListOfPhotosVC: UIViewController {
         let urlCache = URLCache(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: "diskPath")
         URLCache.shared = urlCache
         fetchListOfPhotos()
-
+        
     }
     
     @IBAction func updateListOfPhotos(_ sender: Any) {
@@ -59,7 +59,7 @@ extension ListOfPhotosVC {
     }
 }
 
-// MARK: TableViewDataSource
+// MARK: TableViewDataSource & TableViewDelegate
 extension ListOfPhotosVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -75,5 +75,21 @@ extension ListOfPhotosVC: UITableViewDataSource, UITableViewDelegate {
         let photo = listOfPhotos[indexPath.row]
         cell.configere(with: photo)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let photo = listOfPhotos[indexPath.row]
+        print(indexPath.row)
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complete in
+            self.listOfPhotos.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.reloadData()
+            complete(true)
+        }
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
     }
 }

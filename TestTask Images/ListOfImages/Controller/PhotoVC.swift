@@ -22,7 +22,6 @@ class PhotoVC: UIViewController, UIScrollViewDelegate {
         photoActivityIndicator.hidesWhenStopped = true
 
         fetchPhoto(imageUrl: currentPhotoUrl)
-        print(currentPhotoUrl)
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -36,7 +35,7 @@ extension PhotoVC {
         photoActivityIndicator.isHidden = false
         photoActivityIndicator.startAnimating()
         
-        NetworkService.fetchPhoto(imageUrl: imageUrl) {(image) in
+        _ = NetworkService.fetchPhoto(imageUrl: imageUrl) {(image) in
            
             DispatchQueue.main.async {
                 

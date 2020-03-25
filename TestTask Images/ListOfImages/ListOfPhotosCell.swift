@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Alamofire
+import AlamofireImage
+
 
 class ListOfPhotosCell: UITableViewCell {
     
@@ -26,10 +29,7 @@ class ListOfPhotosCell: UITableViewCell {
         self.photoSizeLabel.text = "w: \(photo.width ?? 0) h: \(photo.height ?? 0)"
         self.currentPhotoUrl = photo.download_url ?? ""
         
-        let queue = DispatchQueue.global(qos: .default)
-        queue.async {
-            self.fetchPhoto(imageUrl: photo.download_url ?? "")
-        }
+        fetchPhoto(imageUrl: currentPhotoUrl)
     }
     
     override func prepareForReuse() {
@@ -42,10 +42,10 @@ class ListOfPhotosCell: UITableViewCell {
 extension ListOfPhotosCell {
     
     private func fetchPhoto(imageUrl: String) {
-        photoActivityIndicator.isHidden = false
-        photoActivityIndicator.startAnimating()
+        self.photoActivityIndicator.isHidden = false
+        self.photoActivityIndicator.startAnimating()
         
-        NetworkService.fetchPhoto(imageUrl: imageUrl) { (image) in
+        _ = NetworkService.fetchPhoto(imageUrl: currentPhotoUrl) { (image) in
             DispatchQueue.main.async {
                 if self.currentPhotoUrl == imageUrl {
                     self.photoImageView.image = image

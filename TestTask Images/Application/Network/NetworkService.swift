@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import AlamofireImage
 
 struct NetworkService {
     
@@ -31,23 +33,35 @@ struct NetworkService {
         }.resume()
     }
     
-    static func fetchPhoto(imageUrl: String, completion: @escaping (UIImage) -> ()){
-        guard let imageUrl = URL(string: imageUrl) else { return }
-        let session = URLSession.shared
-        session.dataTask(with: imageUrl) { (data, response, error) in
-            
-            if let data = data, let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    completion(image)
-                }
-            } else {
-                DispatchQueue.main.async {
-                    networkAlert()
-                    let image = #imageLiteral(resourceName: "noImage")
-                    completion(image)
-                }
+//    static func fetchPhoto2(imageUrl: String, completion: @escaping (UIImage) -> ()){
+//        guard let imageUrl = URL(string: imageUrl) else { return }
+//        let session = URLSession.shared
+//        session.dataTask(with: imageUrl) { (data, response, error) in
+//
+//            if let data = data, let image = UIImage(data: data) {
+//                DispatchQueue.main.async {
+//                    completion(image)
+//                }
+//            } else {
+//                DispatchQueue.main.async {
+//                    networkAlert()
+//                    let image = #imageLiteral(resourceName: "noImage")
+//                    completion(image)
+//                }
+//            }
+//        }.resume()
+//    }
+    
+    static func fetchPhoto(imageUrl: String, completion: @escaping (UIImage) -> Void) -> Request {
+        return AF.request(imageUrl, method: .get).responseImage { response in
+            switch response.result {
+            case .success(let value):
+                completion(value)
+            case .failure(let error):
+                print(error)
+                completion(#imageLiteral(resourceName: "noImage"))
             }
-        }.resume()
+        }
     }
     
     // MARK: Network Alert
