@@ -16,4 +16,5 @@ struct ListOfPhotos: Decodable {
     let height: Int?
     let url: String?
     let download_url: String?
+
 }

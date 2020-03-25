@@ -74,7 +74,7 @@
                                             <outlet property="photoActivityIndicator" destination="Dkq-MH-dL9" id="052-NF-O4h"/>
                                             <outlet property="photoImageView" destination="tOP-Bq-ARO" id="RBm-p0-FEH"/>
                                             <outlet property="photoSizeLabel" destination="gwL-WP-ANb" id="klE-Bg-0O1"/>
-                                            <segue destination="aGp-qb-rbo" kind="show" identifier="detailPhoto" id="YFf-Ll-45X"/>
+                                            <segue destination="I8d-5g-SkZ" kind="show" identifier="detailPhoto" id="Ivd-2R-Asc"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -109,40 +109,57 @@
             <point key="canvasLocation" x="877.5" y="155.28169014084509"/>
         </scene>
         <!--PhotoVC-->
-        <scene sceneID="m4b-SZ-tjm">
+        <scene sceneID="b7l-At-lNv">
             <objects>
-                <viewController id="aGp-qb-rbo" customClass="PhotoVC" customModule="TestTask_Images" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Aww-WV-y3R">
+                <viewController id="I8d-5g-SkZ" customClass="PhotoVC" customModule="TestTask_Images" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="j52-fC-USa">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cZf-dB-sqL">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" maximumZoomScale="6" translatesAutoresizingMaskIntoConstraints="NO" id="yAB-Y2-GY4">
                                 <rect key="frame" x="0.0" y="44" width="320" height="524"/>
-                            </imageView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ydW-t0-hFA">
-                                <rect key="frame" x="150" y="274" width="20" height="20"/>
-                            </activityIndicatorView>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sGC-Vx-Bzo">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="524"/>
+                                    </imageView>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="6Og-nN-Sjp">
+                                        <rect key="frame" x="150" y="252" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="sGC-Vx-Bzo" firstAttribute="leading" secondItem="yAB-Y2-GY4" secondAttribute="leading" id="2Oc-al-0fw"/>
+                                    <constraint firstItem="6Og-nN-Sjp" firstAttribute="centerY" secondItem="yAB-Y2-GY4" secondAttribute="centerY" id="AQO-Wi-Apo"/>
+                                    <constraint firstAttribute="bottom" secondItem="sGC-Vx-Bzo" secondAttribute="bottom" id="Gxd-RU-Xbq"/>
+                                    <constraint firstItem="sGC-Vx-Bzo" firstAttribute="width" secondItem="yAB-Y2-GY4" secondAttribute="width" id="btO-eL-nOq"/>
+                                    <constraint firstItem="6Og-nN-Sjp" firstAttribute="centerX" secondItem="yAB-Y2-GY4" secondAttribute="centerX" id="cWD-xu-jzz"/>
+                                    <constraint firstAttribute="trailing" secondItem="sGC-Vx-Bzo" secondAttribute="trailing" id="huP-r7-6Ar"/>
+                                    <constraint firstItem="sGC-Vx-Bzo" firstAttribute="top" secondItem="yAB-Y2-GY4" secondAttribute="top" id="kcy-g5-sh0"/>
+                                    <constraint firstItem="sGC-Vx-Bzo" firstAttribute="height" secondItem="yAB-Y2-GY4" secondAttribute="height" id="obA-z1-PCb"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="I8d-5g-SkZ" id="zgW-bX-ec2"/>
+                                </connections>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="cZf-dB-sqL" firstAttribute="top" secondItem="ARh-xT-TV6" secondAttribute="top" id="BcW-ax-Hfk"/>
-                            <constraint firstItem="cZf-dB-sqL" firstAttribute="trailing" secondItem="ARh-xT-TV6" secondAttribute="trailing" id="VuJ-sS-Kpu"/>
-                            <constraint firstItem="cZf-dB-sqL" firstAttribute="leading" secondItem="ARh-xT-TV6" secondAttribute="leading" id="WJ7-Yi-Lug"/>
-                            <constraint firstItem="ydW-t0-hFA" firstAttribute="centerY" secondItem="Aww-WV-y3R" secondAttribute="centerY" id="bLV-o5-T6n"/>
-                            <constraint firstItem="ydW-t0-hFA" firstAttribute="centerX" secondItem="Aww-WV-y3R" secondAttribute="centerX" id="cjl-k3-33F"/>
-                            <constraint firstItem="cZf-dB-sqL" firstAttribute="bottom" secondItem="ARh-xT-TV6" secondAttribute="bottom" id="tfB-yL-3d2"/>
+                            <constraint firstItem="yAB-Y2-GY4" firstAttribute="leading" secondItem="rRZ-36-0rP" secondAttribute="leading" id="6bv-1Q-M94"/>
+                            <constraint firstItem="yAB-Y2-GY4" firstAttribute="trailing" secondItem="rRZ-36-0rP" secondAttribute="trailing" id="GkE-2f-JUC"/>
+                            <constraint firstItem="yAB-Y2-GY4" firstAttribute="bottom" secondItem="rRZ-36-0rP" secondAttribute="bottom" id="RiV-KZ-BND"/>
+                            <constraint firstItem="yAB-Y2-GY4" firstAttribute="top" secondItem="rRZ-36-0rP" secondAttribute="top" id="hc0-zd-rwW"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="ARh-xT-TV6"/>
+                        <viewLayoutGuide key="safeArea" id="rRZ-36-0rP"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Htl-5z-oW9"/>
+                    <navigationItem key="navigationItem" id="tgr-GI-N74"/>
                     <connections>
-                        <outlet property="photoActivityIndicator" destination="ydW-t0-hFA" id="m4n-zD-l5D"/>
-                        <outlet property="photoImageView" destination="cZf-dB-sqL" id="F8I-VT-LAu"/>
+                        <outlet property="photoActivityIndicator" destination="6Og-nN-Sjp" id="HaT-ay-KvM"/>
+                        <outlet property="photoImageView" destination="sGC-Vx-Bzo" id="x9a-ub-gwd"/>
+                        <outlet property="photoScrollView" destination="yAB-Y2-GY4" id="Kgb-w8-ygZ"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tk1-R8-bnL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qfj-Ry-gBZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1606.875" y="154.22535211267606"/>
+            <point key="canvasLocation" x="1655.625" y="154.22535211267606"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="aBq-hG-iuv">

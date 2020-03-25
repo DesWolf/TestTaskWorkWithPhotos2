@@ -36,6 +36,7 @@ extension ListOfPhotosVC {
     private func fetchListOfPhotos() {
         NetworkService.fetchListOfImages { (jsonData) in
             self.listOfPhotos = jsonData
+            
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 self.tableView.tableFooterView = UIView()
