@@ -7,9 +7,6 @@
 //
 
 import UIKit
-import Alamofire
-import AlamofireImage
-
 
 class ListOfPhotosCell: UITableViewCell {
     
@@ -45,11 +42,17 @@ extension ListOfPhotosCell {
         self.photoActivityIndicator.isHidden = false
         self.photoActivityIndicator.startAnimating()
         
-        _ = NetworkService.fetchPhoto(imageUrl: currentPhotoUrl) { (image) in
-            DispatchQueue.main.async {
-                if self.currentPhotoUrl == imageUrl {
-                    self.photoImageView.image = image
-                    self.photoActivityIndicator.stopAnimating()
+        let queue = DispatchQueue.global(qos: .utility)
+        queue.async {
+            _ = NetworkService.fetchImage(imageUrl: self.currentPhotoUrl) { (image) in
+                let resizeImage = WorkWithImage.resize(image)
+                print(Thread.current)
+                DispatchQueue.main.async {
+                    
+                    if self.currentPhotoUrl == imageUrl {
+                        self.photoImageView.image = resizeImage
+                        self.photoActivityIndicator.stopAnimating()
+                    }
                 }
             }
         }

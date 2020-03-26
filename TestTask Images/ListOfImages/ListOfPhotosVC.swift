@@ -63,7 +63,7 @@ extension ListOfPhotosVC {
 extension ListOfPhotosVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 87
+        return 367
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -16,16 +16,4 @@ struct ListOfPhotos: Decodable {
     let height: Int?
     let url: String?
     let downloadUrl: String?
-    
-
-
-//    enum CodingKeys: String, CodingKey {
-//
-//      case id = "id"
-//      case author = "author"
-//      case width = "width"
-//      case height = "height"
-//      case url = "url"
-//      case downloadUrl = "download_url"
-//    }
 }

@@ -207,7 +207,6 @@
 			children = (
 				75917234CAC9642DEA94239D /* Pods-TestTask Images.debug.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

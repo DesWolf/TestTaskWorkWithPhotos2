@@ -14,14 +14,19 @@ class PhotoVC: UIViewController, UIScrollViewDelegate {
     @IBOutlet var photoImageView: UIImageView!
     @IBOutlet var photoActivityIndicator: UIActivityIndicatorView!
     
+    var photoImage = #imageLiteral(resourceName: "noImage")
     var currentPhotoUrl = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         photoActivityIndicator.isHidden = true
         photoActivityIndicator.hidesWhenStopped = true
-
+        
+        if photoImage == #imageLiteral(resourceName: "noImage") {
         fetchPhoto(imageUrl: currentPhotoUrl)
+        } else {
+            photoImageView.image = photoImage
+        }
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -35,7 +40,7 @@ extension PhotoVC {
         photoActivityIndicator.isHidden = false
         photoActivityIndicator.startAnimating()
         
-        _ = NetworkService.fetchPhoto(imageUrl: imageUrl) {(image) in
+        _ = NetworkService.fetchImage(imageUrl: imageUrl) {(image) in
            
             DispatchQueue.main.async {
                 

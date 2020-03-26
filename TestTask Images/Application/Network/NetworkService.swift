@@ -47,6 +47,25 @@ struct NetworkService {
         }
     }
     
+    static func fetchImage(imageUrl: String, completion: @escaping (UIImage) -> ()){
+          guard let imageUrl = URL(string: imageUrl) else { return }
+          let session = URLSession.shared
+          session.dataTask(with: imageUrl) { (data, response, error) in
+              
+              if let data = data, let image = UIImage(data: data) {
+                  DispatchQueue.main.async {
+                      completion(image)
+                  }
+              } else {
+                  DispatchQueue.main.async {
+                      networkAlert()
+                      let image = #imageLiteral(resourceName: "noImage")
+                      completion(image)
+                  }
+              }
+          }.resume()
+      }
+    
     // MARK: Network Alert
     static func networkAlert() {
         let alertController = UIAlertController(title: "Error", message: "Network is unavaliable! Please try again later!", preferredStyle: .alert)
