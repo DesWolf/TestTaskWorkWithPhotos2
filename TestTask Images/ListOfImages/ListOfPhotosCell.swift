@@ -27,7 +27,7 @@ class ListOfPhotosCell: UITableViewCell {
         
         self.autorLabel.text = photo.author
         self.photoSizeLabel.text = "w: \(photo.width ?? 0) h: \(photo.height ?? 0)"
-        self.currentPhotoUrl = photo.download_url ?? ""
+        self.currentPhotoUrl = photo.downloadUrl ?? ""
         
         fetchPhoto(imageUrl: currentPhotoUrl)
     }

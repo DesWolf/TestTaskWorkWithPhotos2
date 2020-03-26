@@ -13,12 +13,13 @@ import AlamofireImage
 struct NetworkService {
     
     // MARK: Network
-    static func fetchListOfImages(completion: @escaping ([ListOfPhotos]) -> ()) {
+    static func fetchListOfPhotos(completion: @escaping ([ListOfPhotos]) -> ()) {
         guard let url = URL(string: "https://picsum.photos/v2/list?page=1&limit=20") else { return }
         URLSession.shared.dataTask(with: url) { (data, responce, error) in
             if let data = data {
                 do {
                     let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let jsonData = try decoder.decode([ListOfPhotos].self, from: data)
                     completion(jsonData)
                 } catch let error {
@@ -33,32 +34,14 @@ struct NetworkService {
         }.resume()
     }
     
-//    static func fetchPhoto2(imageUrl: String, completion: @escaping (UIImage) -> ()){
-//        guard let imageUrl = URL(string: imageUrl) else { return }
-//        let session = URLSession.shared
-//        session.dataTask(with: imageUrl) { (data, response, error) in
-//
-//            if let data = data, let image = UIImage(data: data) {
-//                DispatchQueue.main.async {
-//                    completion(image)
-//                }
-//            } else {
-//                DispatchQueue.main.async {
-//                    networkAlert()
-//                    let image = #imageLiteral(resourceName: "noImage")
-//                    completion(image)
-//                }
-//            }
-//        }.resume()
-//    }
-    
     static func fetchPhoto(imageUrl: String, completion: @escaping (UIImage) -> Void) -> Request {
         return AF.request(imageUrl, method: .get).responseImage { response in
             switch response.result {
-            case .success(let value):
-                completion(value)
+            case .success(let image):
+                completion(image)
             case .failure(let error):
                 print(error)
+                networkAlert()
                 completion(#imageLiteral(resourceName: "noImage"))
             }
         }

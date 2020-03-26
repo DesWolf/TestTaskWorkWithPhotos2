@@ -34,7 +34,7 @@ class ListOfPhotosVC: UIViewController {
 extension ListOfPhotosVC {
     
     private func fetchListOfPhotos() {
-        NetworkService.fetchListOfImages { (jsonData) in
+        NetworkService.fetchListOfPhotos { (jsonData) in
             self.listOfPhotos = jsonData
             
             DispatchQueue.main.async {
@@ -54,7 +54,7 @@ extension ListOfPhotosVC {
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
             let photo = listOfPhotos[indexPath.row]
             let photosVC = segue.destination as! PhotoVC
-            photosVC.currentPhotoUrl = photo.download_url ?? ""
+            photosVC.currentPhotoUrl = photo.downloadUrl ?? ""
         }
     }
 }
@@ -78,9 +78,6 @@ extension ListOfPhotosVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let photo = listOfPhotos[indexPath.row]
-        print(indexPath.row)
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complete in
             self.listOfPhotos.remove(at: indexPath.row)
