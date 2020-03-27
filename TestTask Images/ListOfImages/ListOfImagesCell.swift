@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListOfPhotosCell: UITableViewCell {
+class ListOfImagesCell: UITableViewCell {
     
     @IBOutlet var photoImageView: UIImageView!
     @IBOutlet var photoActivityIndicator: UIActivityIndicatorView!
@@ -35,7 +35,7 @@ class ListOfPhotosCell: UITableViewCell {
 }
 
 // MARK: Network
-extension ListOfPhotosCell {
+extension ListOfImagesCell {
     
     private func fetchPhoto(imageUrl: String) {
         self.photoActivityIndicator.isHidden = false
@@ -49,4 +49,3 @@ extension ListOfPhotosCell {
         }
     }
 }
-

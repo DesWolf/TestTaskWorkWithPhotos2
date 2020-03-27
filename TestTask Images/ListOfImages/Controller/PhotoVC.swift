@@ -22,11 +22,7 @@ class PhotoVC: UIViewController, UIScrollViewDelegate {
         photoActivityIndicator.isHidden = true
         photoActivityIndicator.hidesWhenStopped = true
         
-        if photoImage == #imageLiteral(resourceName: "noImage") {
-            fetchPhoto(imageUrl: currentPhotoUrl)
-        } else {
-            photoImageView.image = photoImage
-        }
+        fetchPhoto(imageUrl: currentPhotoUrl)
     }
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -35,7 +31,6 @@ class PhotoVC: UIViewController, UIScrollViewDelegate {
 }
 
 extension PhotoVC {
-    
     private func fetchPhoto(imageUrl: String) {
         photoActivityIndicator.isHidden = false
         photoActivityIndicator.startAnimating()

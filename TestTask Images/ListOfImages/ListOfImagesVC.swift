@@ -8,11 +8,11 @@
 
 import UIKit
 
-class ListOfPhotosVC: UIViewController {
+class ListOfImagesVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private var listOfPhotos = [ListOfImages]()
+    private var listOfImages = [ListOfImages]()
     let memoryCapacity = 500 * 1024 * 1024
     let diskCapacity = 500 * 1024 * 1024
     
@@ -24,16 +24,16 @@ class ListOfPhotosVC: UIViewController {
         fetchListOfPhotos()
     }
     
-    @IBAction func updateListOfPhotos(_ sender: Any) {
+    @IBAction func updateListOfImages(_ sender: Any) {
         fetchListOfPhotos()
     }
 }
 
 // MARK: Network
-extension ListOfPhotosVC {
+extension ListOfImagesVC {
     private func fetchListOfPhotos() {
         NetworkService.fetchListOfImages { (jsonData) in
-            self.listOfPhotos = jsonData
+            self.listOfImages = jsonData
             self.tableView.reloadData()
             self.tableView.tableFooterView = UIView()
         }
@@ -41,11 +41,11 @@ extension ListOfPhotosVC {
 }
 
 // MARK: Navigation
-extension ListOfPhotosVC {
+extension ListOfImagesVC {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailPhoto" {
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
-            let photo = listOfPhotos[indexPath.row]
+            let photo = listOfImages[indexPath.row]
             let photosVC = segue.destination as! PhotoVC
             photosVC.currentPhotoUrl = photo.downloadUrl ?? ""
         }
@@ -53,25 +53,25 @@ extension ListOfPhotosVC {
 }
 
 // MARK: TableViewDataSource & TableViewDelegate
-extension ListOfPhotosVC: UITableViewDataSource, UITableViewDelegate {
+extension ListOfImagesVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listOfPhotos.count
+        return listOfImages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ListOfPhotosCell
-        let photo = listOfPhotos[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ListOfImagesCell
+        let photo = listOfImages[indexPath.row]
         cell.configere(with: photo)
         return cell
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complete in
-            self.listOfPhotos.remove(at: indexPath.row)
+            self.listOfImages.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             complete(true)
         }

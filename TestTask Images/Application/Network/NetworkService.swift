@@ -14,7 +14,6 @@ struct NetworkService {
     static func fetchListOfImages(completion: @escaping ([ListOfImages]) -> ()) {
         guard let url = URL(string: "https://picsum.photos/v2/list?page=1&limit=20") else { return }
         URLSession.shared.dataTask(with: url) { (data, responce, error) in
-            
             if let data = data {
                 do {
                     let decoder = JSONDecoder()
