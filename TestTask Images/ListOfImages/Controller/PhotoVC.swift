@@ -23,7 +23,7 @@ class PhotoVC: UIViewController, UIScrollViewDelegate {
         photoActivityIndicator.hidesWhenStopped = true
         
         if photoImage == #imageLiteral(resourceName: "noImage") {
-        fetchPhoto(imageUrl: currentPhotoUrl)
+            fetchPhoto(imageUrl: currentPhotoUrl)
         } else {
             photoImageView.image = photoImage
         }
@@ -41,13 +41,9 @@ extension PhotoVC {
         photoActivityIndicator.startAnimating()
         
         _ = NetworkService.fetchImage(imageUrl: imageUrl) {(image) in
-           
-            DispatchQueue.main.async {
-                
-                if self.currentPhotoUrl == imageUrl {
-                    self.photoImageView.image = image
-                    self.photoActivityIndicator.stopAnimating()
-                }
+            if self.currentPhotoUrl == imageUrl {
+                self.photoImageView.image = image
+                self.photoActivityIndicator.stopAnimating()
             }
         }
     }

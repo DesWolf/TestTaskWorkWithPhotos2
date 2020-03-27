@@ -164,19 +164,10 @@
 		9E1E12752429FC2300CCA727 /* Image */ = {
 			isa = PBXGroup;
 			children = (
-				9E1E12762429FC3B00CCA727 /* View */,
 				9E1E12772429FC4700CCA727 /* Controller */,
-				9E1E12782429FC5C00CCA727 /* SupportFunc */,
 			);
 			name = Image;
 			path = ListOfImages;
-			sourceTree = "<group>";
-		};
-		9E1E12762429FC3B00CCA727 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		9E1E12772429FC4700CCA727 /* Controller */ = {
@@ -185,13 +176,6 @@
 				9EAF6E28242B6ACE00D28171 /* PhotoVC.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		9E1E12782429FC5C00CCA727 /* SupportFunc */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SupportFunc;
 			sourceTree = "<group>";
 		};
 		9E1E12792429FCB000CCA727 /* Network */ = {

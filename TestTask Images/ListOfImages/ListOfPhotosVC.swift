@@ -22,7 +22,6 @@ class ListOfPhotosVC: UIViewController {
         let urlCache = URLCache(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: "diskPath")
         URLCache.shared = urlCache
         fetchListOfPhotos()
-        
     }
     
     @IBAction func updateListOfPhotos(_ sender: Any) {
@@ -36,12 +35,8 @@ extension ListOfPhotosVC {
     private func fetchListOfPhotos() {
         NetworkService.fetchListOfPhotos { (jsonData) in
             self.listOfPhotos = jsonData
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.tableView.tableFooterView = UIView()
-                
-            }
+            self.tableView.reloadData()
+            self.tableView.tableFooterView = UIView()
         }
     }
 }
@@ -63,7 +58,7 @@ extension ListOfPhotosVC {
 extension ListOfPhotosVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 367
+        return 90
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

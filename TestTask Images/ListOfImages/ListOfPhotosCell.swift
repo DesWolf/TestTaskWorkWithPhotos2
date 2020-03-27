@@ -42,19 +42,12 @@ extension ListOfPhotosCell {
         self.photoActivityIndicator.isHidden = false
         self.photoActivityIndicator.startAnimating()
         
-        let queue = DispatchQueue.global(qos: .utility)
-        queue.async {
-            _ = NetworkService.fetchImage(imageUrl: self.currentPhotoUrl) { (image) in
-                let resizeImage = WorkWithImage.resize(image)
-                print(Thread.current)
-                DispatchQueue.main.async {
-                    
-                    if self.currentPhotoUrl == imageUrl {
-                        self.photoImageView.image = resizeImage
-                        self.photoActivityIndicator.stopAnimating()
-                    }
-                }
+        _ = NetworkService.fetchImageWithResize(imageUrl: self.currentPhotoUrl) { (image) in
+            if self.currentPhotoUrl == imageUrl {
+                self.photoImageView.image =  image
+                self.photoActivityIndicator.stopAnimating()
             }
+            
         }
     }
 }

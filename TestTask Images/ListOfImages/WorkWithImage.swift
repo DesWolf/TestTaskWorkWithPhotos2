@@ -11,15 +11,15 @@ import UIKit
 struct WorkWithImage {
     
     static func resize(_ image: UIImage) -> UIImage {
-                   
+        
         var actualHeight = Float(image.size.height)
         var actualWidth = Float(image.size.width)
-        let maxHeight: Float = 500.0
-        let maxWidth: Float = 500.0
+        let maxHeight: Float = 300.0
+        let maxWidth: Float = 300.0
         var imgRatio: Float = actualWidth / actualHeight
         let maxRatio: Float = maxWidth / maxHeight
         let compressionQuality: Float = 0.5
-
+        
         if actualHeight > maxHeight || actualWidth > maxWidth {
             if imgRatio < maxRatio {
                 imgRatio = maxHeight / actualHeight
@@ -36,6 +36,7 @@ struct WorkWithImage {
                 actualWidth = maxWidth
             }
         }
+        
         let rect = CGRect(x: 0.0, y: 0.0, width: CGFloat(actualWidth), height: CGFloat(actualHeight))
         UIGraphicsBeginImageContext(rect.size)
         image.draw(in: rect)

@@ -20,47 +20,47 @@
                                 <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" rowHeight="367" id="haB-0n-Qxa" customClass="ListOfPhotosCell" customModule="TestTask_Images" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="367"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" rowHeight="90" id="haB-0n-Qxa" customClass="ListOfPhotosCell" customModule="TestTask_Images" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="90"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="haB-0n-Qxa" id="Kba-tP-070">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="90"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="LhY-Ea-tEJ">
-                                                    <rect key="frame" x="15" y="11" width="290" height="345"/>
-                                                    <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tOP-Bq-ARO">
-                                                            <rect key="frame" x="0.0" y="0.0" width="290" height="289.5"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="290" id="LAD-0B-58I"/>
-                                                            </constraints>
-                                                        </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Autor" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="vBf-Nk-86h">
-                                                            <rect key="frame" x="0.0" y="296.5" width="290" height="23"/>
-                                                            <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Image Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gwL-WP-ANb">
-                                                            <rect key="frame" x="0.0" y="326.5" width="290" height="18.5"/>
-                                                            <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="16"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Dkq-MH-dL9">
-                                                    <rect key="frame" x="150" y="146" width="20" height="20"/>
+                                                    <rect key="frame" x="40" y="35" width="20" height="20"/>
                                                 </activityIndicatorView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Autor" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="vBf-Nk-86h">
+                                                    <rect key="frame" x="98" y="22" width="207" height="23"/>
+                                                    <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="20"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gwL-WP-ANb">
+                                                    <rect key="frame" x="98" y="48" width="207" height="19"/>
+                                                    <fontDescription key="fontDescription" name="GillSans-Light" family="Gill Sans" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tOP-Bq-ARO">
+                                                    <rect key="frame" x="10" y="5" width="80" height="80"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="80" id="smp-0J-2h9"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="LhY-Ea-tEJ" secondAttribute="trailing" constant="15" id="8Cd-Sk-Vm7"/>
-                                                <constraint firstItem="LhY-Ea-tEJ" firstAttribute="leading" secondItem="Kba-tP-070" secondAttribute="leading" constant="15" id="OOa-7B-nPH"/>
-                                                <constraint firstAttribute="bottom" secondItem="LhY-Ea-tEJ" secondAttribute="bottom" constant="11" id="V7f-Tb-qIR"/>
-                                                <constraint firstItem="Dkq-MH-dL9" firstAttribute="centerY" secondItem="tOP-Bq-ARO" secondAttribute="centerY" id="deU-Ry-n0V"/>
-                                                <constraint firstItem="LhY-Ea-tEJ" firstAttribute="top" secondItem="Kba-tP-070" secondAttribute="top" constant="11" id="hmR-Wx-DOz"/>
-                                                <constraint firstItem="Dkq-MH-dL9" firstAttribute="centerX" secondItem="tOP-Bq-ARO" secondAttribute="centerX" id="iPs-E5-lj8"/>
+                                                <constraint firstItem="tOP-Bq-ARO" firstAttribute="top" secondItem="Kba-tP-070" secondAttribute="topMargin" constant="-6" id="9QJ-qW-1nE"/>
+                                                <constraint firstItem="tOP-Bq-ARO" firstAttribute="centerX" secondItem="Dkq-MH-dL9" secondAttribute="centerX" id="9ZD-jM-a23"/>
+                                                <constraint firstItem="gwL-WP-ANb" firstAttribute="top" secondItem="vBf-Nk-86h" secondAttribute="bottom" constant="3" id="Bhv-4z-atN"/>
+                                                <constraint firstItem="vBf-Nk-86h" firstAttribute="trailing" secondItem="Kba-tP-070" secondAttribute="trailingMargin" id="Hy9-4y-pTg"/>
+                                                <constraint firstItem="Dkq-MH-dL9" firstAttribute="centerY" secondItem="tOP-Bq-ARO" secondAttribute="centerY" id="IlU-kR-Gqa"/>
+                                                <constraint firstItem="vBf-Nk-86h" firstAttribute="leading" secondItem="tOP-Bq-ARO" secondAttribute="trailing" constant="8" symbolic="YES" id="WYU-sI-i1M"/>
+                                                <constraint firstItem="tOP-Bq-ARO" firstAttribute="centerY" secondItem="Kba-tP-070" secondAttribute="centerY" id="Ym6-5A-Yae"/>
+                                                <constraint firstItem="tOP-Bq-ARO" firstAttribute="leading" secondItem="Kba-tP-070" secondAttribute="leadingMargin" constant="-5" id="eyk-in-c9S"/>
+                                                <constraint firstItem="vBf-Nk-86h" firstAttribute="leading" secondItem="gwL-WP-ANb" secondAttribute="leading" id="oQb-MC-ydF"/>
+                                                <constraint firstItem="vBf-Nk-86h" firstAttribute="trailing" secondItem="gwL-WP-ANb" secondAttribute="trailing" id="uOf-B4-BIB"/>
+                                                <constraint firstItem="vBf-Nk-86h" firstAttribute="top" secondItem="Kba-tP-070" secondAttribute="topMargin" constant="11" id="wjg-Fd-5fF"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
