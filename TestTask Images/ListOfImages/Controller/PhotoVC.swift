@@ -14,7 +14,6 @@ class PhotoVC: UIViewController, UIScrollViewDelegate {
     @IBOutlet var photoImageView: UIImageView!
     @IBOutlet var photoActivityIndicator: UIActivityIndicatorView!
     
-    var photoImage = #imageLiteral(resourceName: "noImage")
     var currentPhotoUrl = ""
     
     override func viewDidLoad() {
