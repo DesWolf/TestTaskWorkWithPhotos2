@@ -12,7 +12,7 @@ class ListOfPhotosVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private var listOfPhotos = [ListOfPhotos]()
+    private var listOfPhotos = [ListOfImages]()
     let memoryCapacity = 500 * 1024 * 1024
     let diskCapacity = 500 * 1024 * 1024
     
@@ -31,9 +31,8 @@ class ListOfPhotosVC: UIViewController {
 
 // MARK: Network
 extension ListOfPhotosVC {
-    
     private func fetchListOfPhotos() {
-        NetworkService.fetchListOfPhotos { (jsonData) in
+        NetworkService.fetchListOfImages { (jsonData) in
             self.listOfPhotos = jsonData
             self.tableView.reloadData()
             self.tableView.tableFooterView = UIView()
@@ -43,7 +42,6 @@ extension ListOfPhotosVC {
 
 // MARK: Navigation
 extension ListOfPhotosVC {
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailPhoto" {
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
@@ -56,7 +54,6 @@ extension ListOfPhotosVC {
 
 // MARK: TableViewDataSource & TableViewDelegate
 extension ListOfPhotosVC: UITableViewDataSource, UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
     }
@@ -73,13 +70,12 @@ extension ListOfPhotosVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complete in
             self.listOfPhotos.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            tableView.reloadData()
             complete(true)
         }
+        
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         configuration.performsFirstActionWithFullSwipe = true
         return configuration

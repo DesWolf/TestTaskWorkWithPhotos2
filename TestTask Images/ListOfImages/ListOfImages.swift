@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ListOfPhotos: Decodable {
+struct ListOfImages: Decodable {
     
     let id: String?
     let author: String?

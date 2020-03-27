@@ -43,6 +43,6 @@ struct WorkWithImage {
         let img = UIGraphicsGetImageFromCurrentImageContext()
         let imageData = img?.jpegData(compressionQuality: CGFloat(compressionQuality))
         UIGraphicsEndImageContext()
-        return UIImage(data: imageData!) ?? UIImage()
+        return UIImage(data: imageData!) ?? #imageLiteral(resourceName: "noImage")
     }
 }

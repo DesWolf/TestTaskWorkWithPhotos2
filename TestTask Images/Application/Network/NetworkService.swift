@@ -7,87 +7,72 @@
 //
 
 import UIKit
-import Alamofire
-import AlamofireImage
 
 struct NetworkService {
     
     // MARK: Network
-    static func fetchListOfPhotos(completion: @escaping ([ListOfPhotos]) -> ()) {
+    static func fetchListOfImages(completion: @escaping ([ListOfImages]) -> ()) {
         guard let url = URL(string: "https://picsum.photos/v2/list?page=1&limit=20") else { return }
         URLSession.shared.dataTask(with: url) { (data, responce, error) in
-            let queue = DispatchQueue.global(qos: .utility)
-            queue.async {
-                if let data = data {
-                    do {
-                        let decoder = JSONDecoder()
-                        decoder.keyDecodingStrategy = .convertFromSnakeCase
-                        let jsonData = try decoder.decode([ListOfPhotos].self, from: data)
-                        DispatchQueue.main.async {
-                            completion(jsonData)
-                        }
-                    } catch let error {
-                        DispatchQueue.main.async {
-                            print ("Error serialization JSON", error)
-                            completion([])
-                        }
-                    }
-                } else {
+            
+            if let data = data {
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    let jsonData = try decoder.decode([ListOfImages].self, from: data)
                     DispatchQueue.main.async {
-                        networkAlert()
+                        completion(jsonData)
                     }
+                } catch let error {
+                    DispatchQueue.main.async {
+                        print ("Error serialization JSON", error)
+                        completion([])
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    networkAlert()
                 }
             }
         }.resume()
     }
     
-    
     static func fetchImageWithResize(imageUrl: String, completion: @escaping (UIImage) -> ()){
-        let queue = DispatchQueue.global(qos: .utility)
-        queue.async {
-            
-            guard let imageUrl = URL(string: imageUrl) else { return }
-            let session = URLSession.shared
-            session.dataTask(with: imageUrl) { (data, response, error) in
-                
-                if let data = data, let image = UIImage(data: data) {
-                    let resizeImage = WorkWithImage.resize(image)
-                    DispatchQueue.main.async {
-                        completion(resizeImage)
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        networkAlert()
-                        let image = #imageLiteral(resourceName: "noImage")
-                        completion(image)
-                    }
+        guard let imageUrl = URL(string: imageUrl) else { return }
+        let session = URLSession.shared
+        session.dataTask(with: imageUrl) { (data, response, error) in
+            if let data = data, let image = UIImage(data: data) {
+                let resizeImage = WorkWithImage.resize(image)
+                DispatchQueue.main.async {
+                    completion(resizeImage)
                 }
-            }.resume()
-        }
+            } else {
+                DispatchQueue.main.async {
+                    networkAlert()
+                    let image = #imageLiteral(resourceName: "noImage")
+                    completion(image)
+                }
+            }
+        }.resume()
     }
     
     static func fetchImage(imageUrl: String, completion: @escaping (UIImage) -> ()){
-        let queue = DispatchQueue.global(qos: .utility)
-        queue.async {
+        guard let imageUrl = URL(string: imageUrl) else { return }
+        let session = URLSession.shared
+        session.dataTask(with: imageUrl) { (data, response, error) in
             
-            
-            guard let imageUrl = URL(string: imageUrl) else { return }
-            let session = URLSession.shared
-            session.dataTask(with: imageUrl) { (data, response, error) in
-                
-                if let data = data, let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        completion(image)
-                    }
-                } else {
-                    DispatchQueue.main.async {
-                        networkAlert()
-                        let image = #imageLiteral(resourceName: "noImage")
-                        completion(image)
-                    }
+            if let data = data, let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    completion(image)
                 }
-            }.resume()
-        }
+            } else {
+                DispatchQueue.main.async {
+                    networkAlert()
+                    let image = #imageLiteral(resourceName: "noImage")
+                    completion(image)
+                }
+            }
+        }.resume()
     }
     
     // MARK: Network Alert

@@ -17,8 +17,7 @@ class ListOfPhotosCell: UITableViewCell {
     
     var currentPhotoUrl = ""
     
-    func configere(with photo: ListOfPhotos) {
-        
+    func configere(with photo: ListOfImages) {
         photoActivityIndicator.isHidden = true
         photoActivityIndicator.hidesWhenStopped = true
         
@@ -47,7 +46,6 @@ extension ListOfPhotosCell {
                 self.photoImageView.image =  image
                 self.photoActivityIndicator.stopAnimating()
             }
-            
         }
     }
 }
