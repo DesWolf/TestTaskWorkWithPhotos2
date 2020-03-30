@@ -8,36 +8,19 @@
 
 import UIKit
 
-class ListOfImagesVC: UIViewController, UIGestureRecognizerDelegate {
+class ListOfImagesVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
     private var listOfImages = [ListOfImages]()
-//    let memoryCapacity = 500 * 1024 * 1024
-//    let diskCapacity = 500 * 1024 * 1024
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        let urlCache = URLCache(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: "diskPath")
-//        URLCache.shared = urlCache
         fetchListOfPhotos()
-        
     }
     
     @IBAction func updateListOfImages(_ sender: Any) {
         fetchListOfPhotos()
-    }
-    
-    @objc func deleteAction(tapGesture:UILongPressGestureRecognizer){
-        switch tapGesture.state {
-        case .ended:
-            listOfImages.remove(at: tapGesture.view!.tag)
-            tableView.deleteRows(at: [IndexPath(item: tapGesture.view!.tag, section: 0)], with: .fade)
-            tableView.reloadData()
-        default:
-            break
-        }
     }
 }
 
@@ -51,7 +34,6 @@ extension ListOfImagesVC {
         }
     }
 }
-
 
 // MARK: Navigation
 extension ListOfImagesVC {
@@ -80,36 +62,26 @@ extension ListOfImagesVC: UITableViewDataSource, UITableViewDelegate {
         let photo = listOfImages[indexPath.row]
         cell.configere(with: photo)
         
-        let longPressGesture : UILongPressGestureRecognizer = UILongPressGestureRecognizer.init(target: self, action: #selector(deleteAction(tapGesture:)))
-        longPressGesture.delegate = self
-        longPressGesture.minimumPressDuration = 1
-        cell.isUserInteractionEnabled = true
+//        let longPressGesture : UILongPressGestureRecognizer = UILongPressGestureRecognizer.init(target: self, action: #selector(deleteAction(tapGesture:)))
+//        longPressGesture.delegate = self
+//        cell.isUserInteractionEnabled = true
         cell.tag = indexPath.row
-        cell.addGestureRecognizer(longPressGesture)
+//        cell.addGestureRecognizer(longPressGesture)
         
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, complete in
-            self.listOfImages.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            complete(true)
+}
+// MARK: DeleteCell
+extension ListOfImagesVC: UIGestureRecognizerDelegate, DeleteCellProtocol {
+   
+    @objc func deleteAction(tapGesture:UILongPressGestureRecognizer){
+        switch tapGesture.state {
+        case .ended:
+            listOfImages.remove(at: tapGesture.view!.tag)
+            tableView.deleteRows(at: [IndexPath(item: tapGesture.view!.tag, section: 0)], with: .fade)
+            tableView.reloadData()
+        default:
+            break
         }
-        
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        configuration.performsFirstActionWithFullSwipe = true
-        return configuration
     }
 }
-
-extension ListOfImages {
-    func deleteAlert()  {
-        let alertController = UIAlertController(title: "Delete", message: "Are you sure?", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
-        let rootViewController = UIApplication.shared.keyWindow?.rootViewController
-        rootViewController?.present(alertController, animated: true, completion: nil)
-    }
-}
-

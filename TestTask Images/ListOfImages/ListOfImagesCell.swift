@@ -8,6 +8,10 @@
 
 import UIKit
 
+@objc protocol DeleteCellProtocol: AnyObject {
+    @objc func deleteAction(tapGesture:UILongPressGestureRecognizer)
+}
+
 class ListOfImagesCell: UITableViewCell {
     
     @IBOutlet var photoImageView: UIImageView!
@@ -17,6 +21,7 @@ class ListOfImagesCell: UITableViewCell {
     
     var currentPhotoUrl = ""
     var imageCache = NSCache<AnyObject, AnyObject>()
+    weak var delegate: DeleteCellProtocol?
     
     func configere(with photo: ListOfImages) {
         photoActivityIndicator.isHidden = true
@@ -28,10 +33,17 @@ class ListOfImagesCell: UITableViewCell {
         
         if let cacheImage = imageCache.object(forKey: currentPhotoUrl as AnyObject) as? UIImage {
             self.photoImageView.image = cacheImage
-        return
+            return
         } else {
-        fetchPhoto(imageUrl: currentPhotoUrl)
+            fetchPhoto(imageUrl: currentPhotoUrl)
         }
+        let longPressGesture : UILongPressGestureRecognizer = UILongPressGestureRecognizer.init(target: self, action: #selector(ListOfImagesVC.deleteAction(tapGesture:)))
+        longPressGesture.delegate = self
+        self.isUserInteractionEnabled = true
+        
+//        self.tag = indexPath.row
+        self.addGestureRecognizer(longPressGesture)
+        
     }
     
     override func prepareForReuse() {
@@ -50,6 +62,7 @@ extension ListOfImagesCell {
         _ = NetworkService.fetchImageWithResize(imageUrl: self.currentPhotoUrl) { (image) in
             if self.currentPhotoUrl == imageUrl {
                 self.photoImageView.image =  image
+                self.imageCache.setObject(image, forKey: self.currentPhotoUrl as AnyObject)
                 self.photoActivityIndicator.stopAnimating()
             }
         }
