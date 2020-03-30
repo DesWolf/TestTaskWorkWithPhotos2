@@ -61,25 +61,20 @@ extension ListOfImagesVC: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ListOfImagesCell
         let photo = listOfImages[indexPath.row]
         cell.configere(with: photo)
-        
-//        let longPressGesture : UILongPressGestureRecognizer = UILongPressGestureRecognizer.init(target: self,
-//                                                                                                action: #selector(deleteAction(tapGesture:)))
-//        longPressGesture.delegate = self
-//        cell.isUserInteractionEnabled = true
+        cell.delegate = self
         cell.tag = indexPath.row
-//        cell.addGestureRecognizer(longPressGesture)
-        
+       
         return cell
     }
 }
 // MARK: DeleteCellAction
 extension ListOfImagesVC: UIGestureRecognizerDelegate, DeleteCellProtocol {
    
-    @objc func deleteAction(tapGesture:UILongPressGestureRecognizer){
-        switch tapGesture.state {
+    @objc func deleteAction(holdGesture:UILongPressGestureRecognizer){
+        switch holdGesture.state {
         case .ended:
-            listOfImages.remove(at: tapGesture.view!.tag)
-            tableView.deleteRows(at: [IndexPath(item: tapGesture.view!.tag, section: 0)], with: .fade)
+            listOfImages.remove(at: holdGesture.view!.tag)
+            tableView.deleteRows(at: [IndexPath(item: holdGesture.view!.tag, section: 0)], with: .fade)
             tableView.reloadData()
         default:
             break

@@ -8,8 +8,8 @@
 
 import UIKit
 
-@objc protocol DeleteCellProtocol: AnyObject {
-    @objc func deleteAction(tapGesture:UILongPressGestureRecognizer)
+protocol DeleteCellProtocol: AnyObject {
+    func deleteAction(holdGesture:UILongPressGestureRecognizer)
 }
 
 class ListOfImagesCell: UITableViewCell {
@@ -33,18 +33,18 @@ class ListOfImagesCell: UITableViewCell {
         
         if let cacheImage = imageCache.object(forKey: currentPhotoUrl as AnyObject) as? UIImage {
             self.photoImageView.image = cacheImage
-            return
         } else {
             fetchPhoto(imageUrl: currentPhotoUrl)
         }
         
-        let longPressGesture : UILongPressGestureRecognizer = UILongPressGestureRecognizer.init(target: self, action: #selector(ListOfImagesVC.deleteAction(tapGesture:)))
+        let longPressGesture : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(delete(tapGesture:)))
         longPressGesture.delegate = self
         self.isUserInteractionEnabled = true
-        
-        //        self.tag = indexPath.row
         self.addGestureRecognizer(longPressGesture)
-        
+    }
+    
+    @objc func delete(tapGesture: UILongPressGestureRecognizer) {
+        delegate?.deleteAction(holdGesture: tapGesture)
     }
     
     override func prepareForReuse() {

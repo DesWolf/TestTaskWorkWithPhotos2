@@ -84,5 +84,3 @@ struct NetworkService {
         rootViewController?.present(alertController, animated: true, completion: nil)
     }
 }
-
-
