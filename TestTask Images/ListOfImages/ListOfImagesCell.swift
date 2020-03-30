@@ -8,6 +8,10 @@
 
 import UIKit
 
+@objc protocol DeleteCellProtocol: AnyObject {
+    @objc func deleteAction(tapGesture:UILongPressGestureRecognizer)
+}
+
 class ListOfImagesCell: UITableViewCell {
     
     @IBOutlet var photoImageView: UIImageView!
@@ -17,6 +21,7 @@ class ListOfImagesCell: UITableViewCell {
     
     var currentPhotoUrl = ""
     var imageCache = NSCache<AnyObject, AnyObject>()
+    weak var delegate: DeleteCellProtocol?
     
     func configere(with photo: ListOfImages) {
         photoActivityIndicator.isHidden = true
@@ -32,6 +37,14 @@ class ListOfImagesCell: UITableViewCell {
         } else {
             fetchPhoto(imageUrl: currentPhotoUrl)
         }
+        
+        let longPressGesture : UILongPressGestureRecognizer = UILongPressGestureRecognizer.init(target: self, action: #selector(ListOfImagesVC.deleteAction(tapGesture:)))
+        longPressGesture.delegate = self
+        self.isUserInteractionEnabled = true
+        
+        //        self.tag = indexPath.row
+        self.addGestureRecognizer(longPressGesture)
+        
     }
     
     override func prepareForReuse() {
