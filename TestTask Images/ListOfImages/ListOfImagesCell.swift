@@ -16,6 +16,7 @@ class ListOfImagesCell: UITableViewCell {
     @IBOutlet var photoSizeLabel: UILabel!
     
     var currentPhotoUrl = ""
+    var imageCache = NSCache<AnyObject, AnyObject>()
     
     func configere(with photo: ListOfImages) {
         photoActivityIndicator.isHidden = true
@@ -25,7 +26,12 @@ class ListOfImagesCell: UITableViewCell {
         self.photoSizeLabel.text = "w: \(photo.width ?? 0) h: \(photo.height ?? 0)"
         self.currentPhotoUrl = photo.downloadUrl ?? ""
         
+        if let cacheImage = imageCache.object(forKey: currentPhotoUrl as AnyObject) as? UIImage {
+            self.photoImageView.image = cacheImage
+        return
+        } else {
         fetchPhoto(imageUrl: currentPhotoUrl)
+        }
     }
     
     override func prepareForReuse() {

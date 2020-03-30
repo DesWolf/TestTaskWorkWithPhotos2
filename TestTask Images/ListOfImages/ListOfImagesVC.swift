@@ -8,24 +8,36 @@
 
 import UIKit
 
-class ListOfImagesVC: UIViewController {
+class ListOfImagesVC: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     
     private var listOfImages = [ListOfImages]()
-    let memoryCapacity = 500 * 1024 * 1024
-    let diskCapacity = 500 * 1024 * 1024
+//    let memoryCapacity = 500 * 1024 * 1024
+//    let diskCapacity = 500 * 1024 * 1024
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let urlCache = URLCache(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: "diskPath")
-        URLCache.shared = urlCache
+//        let urlCache = URLCache(memoryCapacity: memoryCapacity, diskCapacity: diskCapacity, diskPath: "diskPath")
+//        URLCache.shared = urlCache
         fetchListOfPhotos()
+        
     }
     
     @IBAction func updateListOfImages(_ sender: Any) {
         fetchListOfPhotos()
+    }
+    
+    @objc func deleteAction(tapGesture:UILongPressGestureRecognizer){
+        switch tapGesture.state {
+        case .ended:
+            listOfImages.remove(at: tapGesture.view!.tag)
+            tableView.deleteRows(at: [IndexPath(item: tapGesture.view!.tag, section: 0)], with: .fade)
+            tableView.reloadData()
+        default:
+            break
+        }
     }
 }
 
@@ -39,6 +51,7 @@ extension ListOfImagesVC {
         }
     }
 }
+
 
 // MARK: Navigation
 extension ListOfImagesVC {
@@ -66,6 +79,14 @@ extension ListOfImagesVC: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ListOfImagesCell
         let photo = listOfImages[indexPath.row]
         cell.configere(with: photo)
+        
+        let longPressGesture : UILongPressGestureRecognizer = UILongPressGestureRecognizer.init(target: self, action: #selector(deleteAction(tapGesture:)))
+        longPressGesture.delegate = self
+        longPressGesture.minimumPressDuration = 1
+        cell.isUserInteractionEnabled = true
+        cell.tag = indexPath.row
+        cell.addGestureRecognizer(longPressGesture)
+        
         return cell
     }
     
@@ -81,3 +102,14 @@ extension ListOfImagesVC: UITableViewDataSource, UITableViewDelegate {
         return configuration
     }
 }
+
+extension ListOfImages {
+    func deleteAlert()  {
+        let alertController = UIAlertController(title: "Delete", message: "Are you sure?", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+        let rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        rootViewController?.present(alertController, animated: true, completion: nil)
+    }
+}
+

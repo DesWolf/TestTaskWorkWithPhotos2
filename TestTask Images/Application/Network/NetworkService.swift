@@ -10,6 +10,8 @@ import UIKit
 
 struct NetworkService {
     
+    var imageCache = NSCache<AnyObject, AnyObject>()
+    
     // MARK: Network
     static func fetchListOfImages(completion: @escaping ([ListOfImages]) -> ()) {
         guard let url = URL(string: "https://picsum.photos/v2/list?page=1&limit=20") else { return }
@@ -82,3 +84,5 @@ struct NetworkService {
         rootViewController?.present(alertController, animated: true, completion: nil)
     }
 }
+
+
