@@ -6,16 +6,17 @@
 //  Copyright © 2020 Максим Окунеев. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Alamofire
 
 protocol AlertNetworkProtocol: AnyObject {
     func alertNetwork()
 }
 
-struct NetworkService {
+class NetworkService {
     
     var imageCache = NSCache<AnyObject, AnyObject>()
+    weak var delegate: AlertNetworkProtocol?
     private let workWithImage = WorkWithImage()
     
     func fetchListOfImages(completion: @escaping ( [ListOfImages])->()) {
@@ -28,13 +29,10 @@ struct NetworkService {
                 completion(jsonData)
             case .failure(let error):
                 print(error)
-                DispatchQueue.main.async {
-                    self.networkAlert()
-                }
+                self.delegate?.alertNetwork()
             }
         }
     }
-    
     
     func fetchImageWithResize(imageUrl: String, completion: @escaping(_ image: UIImage) -> ()) {
         guard let url = URL(string: imageUrl) else { return }
@@ -47,7 +45,7 @@ struct NetworkService {
             case .failure(let error):
                 print(error)
                 DispatchQueue.main.async {
-                    self.networkAlert()
+                    self.delegate?.alertNetwork()
                     let image = #imageLiteral(resourceName: "noImage")
                     completion(image)
                 }
@@ -65,21 +63,11 @@ struct NetworkService {
             case .failure(let error):
                 print(error)
                 DispatchQueue.main.async {
-                    self.networkAlert()
+                    self.delegate?.alertNetwork()
                     let image = #imageLiteral(resourceName: "noImage")
                     completion(image)
                 }
             }
         }
-    }
-}
-
-// MARK: Network Alert
-extension NetworkService {
-    func networkAlert() {
-        let alertController = UIAlertController(title: "Error", message: "Network is unavaliable! Please try again later!", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        let rootViewController = UIApplication.shared.keyWindow?.rootViewController
-        rootViewController?.present(alertController, animated: true, completion: nil)
     }
 }

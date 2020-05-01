@@ -24,7 +24,7 @@ class ListOfImagesCell: UITableViewCell {
     private let imageCache = NSCache<AnyObject, AnyObject>()
     weak var delegate: DeleteCellProtocol?
     
-    func configere(with photo: ListOfImages) {
+    func configure(with photo: ListOfImages) {
         photoActivityIndicator.isHidden = true
         photoActivityIndicator.hidesWhenStopped = true
         

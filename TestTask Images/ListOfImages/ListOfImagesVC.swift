@@ -18,6 +18,7 @@ class ListOfImagesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchListOfPhotos()
+        networkService.delegate = self
     }
     
     @IBAction func updateListOfImages(_ sender: Any) {
@@ -26,13 +27,18 @@ class ListOfImagesVC: UIViewController {
 }
 
 // MARK: Network
-extension ListOfImagesVC {
+extension ListOfImagesVC: AlertNetworkProtocol {
     private func fetchListOfPhotos() {
         networkService.fetchListOfImages { (jsonData) in
             self.listOfImages = jsonData
             self.tableView.reloadData()
             self.tableView.tableFooterView = UIView()
         }
+    }
+    
+    func alertNetwork() {
+        print("AlertinVC")
+        UIAlertController.alert(title:"Error", msg:"Network is unavaliable! Please try again later!", target: self)
     }
 }
 
@@ -61,7 +67,7 @@ extension ListOfImagesVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ListOfImagesCell
         let photo = listOfImages[indexPath.row]
-        cell.configere(with: photo)
+        cell.configure(with: photo)
         cell.delegate = self
         cell.tag = indexPath.row
        
