@@ -14,6 +14,7 @@ class PhotoVC: UIViewController, UIScrollViewDelegate {
     @IBOutlet var photoImageView: UIImageView!
     @IBOutlet var photoActivityIndicator: UIActivityIndicatorView!
     
+    private let networkService = NetworkService()
     var currentPhotoUrl = ""
     
     override func viewDidLoad() {
@@ -34,7 +35,7 @@ extension PhotoVC {
         photoActivityIndicator.isHidden = false
         photoActivityIndicator.startAnimating()
         
-        _ = NetworkService.fetchImage(imageUrl: imageUrl) {(image) in
+        _ = networkService.fetchImage(imageUrl: imageUrl) {(image) in
             if self.currentPhotoUrl == imageUrl {
                 self.photoImageView.image = image
                 self.photoActivityIndicator.stopAnimating()

@@ -19,8 +19,9 @@ class ListOfImagesCell: UITableViewCell {
     @IBOutlet var autorLabel: UILabel!
     @IBOutlet var photoSizeLabel: UILabel!
     
-    var currentPhotoUrl = ""
-    var imageCache = NSCache<AnyObject, AnyObject>()
+    private let networkService = NetworkService()
+    private var currentPhotoUrl = ""
+    private let imageCache = NSCache<AnyObject, AnyObject>()
     weak var delegate: DeleteCellProtocol?
     
     func configere(with photo: ListOfImages) {
@@ -60,7 +61,7 @@ extension ListOfImagesCell {
         self.photoActivityIndicator.isHidden = false
         self.photoActivityIndicator.startAnimating()
         
-        _ = NetworkService.fetchImageWithResize(imageUrl: self.currentPhotoUrl) { (image) in
+        _ = networkService.fetchImageWithResize(imageUrl: self.currentPhotoUrl) { (image) in
             if self.currentPhotoUrl == imageUrl {
                 self.photoImageView.image =  image
                 self.imageCache.setObject(image, forKey: self.currentPhotoUrl as AnyObject)

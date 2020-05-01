@@ -1,83 +1,82 @@
 //
-//  NetworkService.swift
+//  NetworkServiceAlamofire.swift
 //  TestTask Images
 //
-//  Created by Максим Окунеев on 3/24/20.
+//  Created by Максим Окунеев on 5/1/20.
 //  Copyright © 2020 Максим Окунеев. All rights reserved.
 //
 
-import UIKit
+import Foundation
+import Alamofire
+
+protocol AlertNetworkProtocol: AnyObject {
+    func alertNetwork()
+}
 
 struct NetworkService {
     
     var imageCache = NSCache<AnyObject, AnyObject>()
+    private let workWithImage = WorkWithImage()
     
-    // MARK: Network
-    static func fetchListOfImages(completion: @escaping ([ListOfImages]) -> ()) {
+    func fetchListOfImages(completion: @escaping ( [ListOfImages])->()) {
         guard let url = URL(string: "https://picsum.photos/v2/list?page=1&limit=20") else { return }
-        URLSession.shared.dataTask(with: url) { (data, responce, error) in
-            if let data = data {
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let jsonData = try decoder.decode([ListOfImages].self, from: data)
-                    DispatchQueue.main.async {
-                        completion(jsonData)
-                    }
-                } catch let error {
-                    DispatchQueue.main.async {
-                        print ("Error serialization JSON", error)
-                        completion([])
-                    }
-                }
-            } else {
+        AF.request(url, method: .get).validate().responseJSON { (response) in
+            switch response.result {
+            case .success(let value):
+                var jsonData = [ListOfImages]()
+                jsonData = ListOfImages.getArray(from: value)!
+                completion(jsonData)
+            case .failure(let error):
+                print(error)
                 DispatchQueue.main.async {
-                    networkAlert()
+                    self.networkAlert()
                 }
             }
-        }.resume()
+        }
     }
     
-    static func fetchImageWithResize(imageUrl: String, completion: @escaping (UIImage) -> ()){
-        guard let imageUrl = URL(string: imageUrl) else { return }
-        let session = URLSession.shared
-        session.dataTask(with: imageUrl) { (data, response, error) in
-            if let data = data, let image = UIImage(data: data) {
-                let resizeImage = WorkWithImage.resize(image)
+    
+    func fetchImageWithResize(imageUrl: String, completion: @escaping(_ image: UIImage) -> ()) {
+        guard let url = URL(string: imageUrl) else { return }
+        AF.request(url).responseData { (responceData)  in
+            switch responceData.result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else { return }
+                let resizeImage = self.workWithImage.resize(image)
+                completion(resizeImage)
+            case .failure(let error):
+                print(error)
                 DispatchQueue.main.async {
-                    completion(resizeImage)
-                }
-            } else {
-                DispatchQueue.main.async {
-                    networkAlert()
+                    self.networkAlert()
                     let image = #imageLiteral(resourceName: "noImage")
                     completion(image)
                 }
             }
-        }.resume()
+        }
     }
     
-    static func fetchImage(imageUrl: String, completion: @escaping (UIImage) -> ()){
-        guard let imageUrl = URL(string: imageUrl) else { return }
-        let session = URLSession.shared
-        session.dataTask(with: imageUrl) { (data, response, error) in
-            
-            if let data = data, let image = UIImage(data: data) {
+    func fetchImage(imageUrl: String, completion: @escaping(_ image: UIImage) -> ()) {
+        guard let url = URL(string: imageUrl) else { return }
+        AF.request(url).responseData { (responceData)  in
+            switch responceData.result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else { return }
+                completion(image)
+            case .failure(let error):
+                print(error)
                 DispatchQueue.main.async {
-                    completion(image)
-                }
-            } else {
-                DispatchQueue.main.async {
-                    networkAlert()
+                    self.networkAlert()
                     let image = #imageLiteral(resourceName: "noImage")
                     completion(image)
                 }
             }
-        }.resume()
+        }
     }
-    
-    // MARK: Network Alert
-    static func networkAlert() {
+}
+
+// MARK: Network Alert
+extension NetworkService {
+    func networkAlert() {
         let alertController = UIAlertController(title: "Error", message: "Network is unavaliable! Please try again later!", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         let rootViewController = UIApplication.shared.keyWindow?.rootViewController

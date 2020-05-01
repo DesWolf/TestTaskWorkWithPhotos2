@@ -10,7 +10,7 @@ import UIKit
 
 struct WorkWithImage {
     
-    static func resize(_ image: UIImage) -> UIImage {
+    func resize(_ image: UIImage) -> UIImage {
         
         var actualHeight = Float(image.size.height)
         var actualWidth = Float(image.size.width)

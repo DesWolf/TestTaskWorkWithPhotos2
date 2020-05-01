@@ -12,6 +12,7 @@ class ListOfImagesVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    private let networkService = NetworkService()
     private var listOfImages = [ListOfImages]()
     
     override func viewDidLoad() {
@@ -27,7 +28,7 @@ class ListOfImagesVC: UIViewController {
 // MARK: Network
 extension ListOfImagesVC {
     private func fetchListOfPhotos() {
-        NetworkService.fetchListOfImages { (jsonData) in
+        networkService.fetchListOfImages { (jsonData) in
             self.listOfImages = jsonData
             self.tableView.reloadData()
             self.tableView.tableFooterView = UIView()
