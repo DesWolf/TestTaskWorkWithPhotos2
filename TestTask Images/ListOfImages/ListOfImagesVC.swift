@@ -14,6 +14,8 @@ class ListOfImagesVC: UIViewController {
     
     private let networkService = NetworkService()
     private var listOfImages = [ListOfImages]()
+    private let imageCache = NSCache<AnyObject, AnyObject>()
+    private var currentPhotoUrl = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,10 +31,10 @@ class ListOfImagesVC: UIViewController {
 // MARK: Network
 extension ListOfImagesVC: AlertNetworkProtocol {
     private func fetchListOfPhotos() {
-        networkService.fetchListOfImages { (jsonData) in
-            self.listOfImages = jsonData
-            self.tableView.reloadData()
-            self.tableView.tableFooterView = UIView()
+        networkService.fetchListOfImages { [weak self] (jsonData) in
+            self?.listOfImages = jsonData
+            self?.tableView.reloadData()
+            self?.tableView.tableFooterView = UIView()
         }
     }
     
@@ -67,16 +69,16 @@ extension ListOfImagesVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ListOfImagesCell
         let photo = listOfImages[indexPath.row]
-        cell.configure(with: photo)
+        cell.configere(with: photo)
         cell.delegate = self
         cell.tag = indexPath.row
-       
+        
         return cell
     }
 }
 // MARK: DeleteCellAction
 extension ListOfImagesVC: UIGestureRecognizerDelegate, DeleteCellProtocol {
-   
+    
     @objc func deleteAction(holdGesture:UILongPressGestureRecognizer){
         switch holdGesture.state {
         case .ended:
@@ -88,3 +90,4 @@ extension ListOfImagesVC: UIGestureRecognizerDelegate, DeleteCellProtocol {
         }
     }
 }
+

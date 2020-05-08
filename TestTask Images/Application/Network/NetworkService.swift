@@ -15,7 +15,6 @@ protocol AlertNetworkProtocol: AnyObject {
 
 class NetworkService {
     
-    var imageCache = NSCache<AnyObject, AnyObject>()
     weak var delegate: AlertNetworkProtocol?
     private let workWithImage = WorkWithImage()
     

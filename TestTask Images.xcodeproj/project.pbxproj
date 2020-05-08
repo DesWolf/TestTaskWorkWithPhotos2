@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9778941DC7D7A1A00EEE3340 /* Pods_TestTask_Images.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E89DB1E92F3B12D084531DC8 /* Pods_TestTask_Images.framework */; };
+		9E1345E9246470F6007103E3 /* CurrentImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1345E8246470F6007103E3 /* CurrentImage.swift */; };
 		9E1E12582429F4A700CCA727 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1E12572429F4A700CCA727 /* AppDelegate.swift */; };
 		9E1E125C2429F4A700CCA727 /* ListOfImagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1E125B2429F4A700CCA727 /* ListOfImagesVC.swift */; };
 		9E1E125F2429F4A700CCA727 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E1E125D2429F4A700CCA727 /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9E1345E8246470F6007103E3 /* CurrentImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentImage.swift; sourceTree = "<group>"; };
 		9E1E12542429F4A700CCA727 /* TestTask Images.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TestTask Images.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E1E12572429F4A700CCA727 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E1E125B2429F4A700CCA727 /* ListOfImagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOfImagesVC.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				9E56C325245C2C690008E1D6 /* ListOfImages.swift */,
+				9E1345E8246470F6007103E3 /* CurrentImage.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				9E1E125C2429F4A700CCA727 /* ListOfImagesVC.swift in Sources */,
 				9E1E12582429F4A700CCA727 /* AppDelegate.swift in Sources */,
 				9E9F72FC242A4F7A00C3A743 /* WorkWithImage.swift in Sources */,
+				9E1345E9246470F6007103E3 /* CurrentImage.swift in Sources */,
 				9E56C328245C4C790008E1D6 /* AlertService.swift in Sources */,
 				9E56C326245C2C690008E1D6 /* ListOfImages.swift in Sources */,
 			);

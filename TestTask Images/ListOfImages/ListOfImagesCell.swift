@@ -14,17 +14,17 @@ protocol DeleteCellProtocol: AnyObject {
 
 class ListOfImagesCell: UITableViewCell {
     
-    @IBOutlet var photoImageView: UIImageView!
-    @IBOutlet var photoActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet var autorLabel: UILabel!
-    @IBOutlet var photoSizeLabel: UILabel!
+    @IBOutlet weak var photoImageView: UIImageView!
+    @IBOutlet weak var photoActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var autorLabel: UILabel!
+    @IBOutlet weak var photoSizeLabel: UILabel!
     
     private let networkService = NetworkService()
-    private var currentPhotoUrl = ""
-    private let imageCache = NSCache<AnyObject, AnyObject>()
+    var currentPhotoUrl = ""
+    var imageCache = NSCache<AnyObject, AnyObject>()
     weak var delegate: DeleteCellProtocol?
     
-    func configure(with photo: ListOfImages) {
+    func configere(with photo: ListOfImages) {
         photoActivityIndicator.isHidden = true
         photoActivityIndicator.hidesWhenStopped = true
         
@@ -61,11 +61,11 @@ extension ListOfImagesCell {
         self.photoActivityIndicator.isHidden = false
         self.photoActivityIndicator.startAnimating()
         
-        _ = networkService.fetchImageWithResize(imageUrl: self.currentPhotoUrl) { (image) in
-            if self.currentPhotoUrl == imageUrl {
-                self.photoImageView.image =  image
-                self.imageCache.setObject(image, forKey: self.currentPhotoUrl as AnyObject)
-                self.photoActivityIndicator.stopAnimating()
+        _ = networkService.fetchImageWithResize(imageUrl: self.currentPhotoUrl) { [weak self] (image) in
+            if self?.currentPhotoUrl == imageUrl {
+                self?.photoImageView.image =  image
+                self?.imageCache.setObject(image, forKey: self?.currentPhotoUrl as AnyObject)
+                self?.photoActivityIndicator.stopAnimating()
             }
         }
     }
